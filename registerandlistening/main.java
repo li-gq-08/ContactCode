@@ -4,8 +4,7 @@ public class main {
     public static void main(String[] args){ 
         String TAG = "funTest";
         log.d(TAG,"start");
-        settingProvider.putString("Test","1");
-        settingProvider.putString("BOOL",true);
+
         ContenResolver resolver = new ContenResolver();
         //===================================================//
         ContentObserver stringObserver = null;
@@ -15,10 +14,7 @@ public class main {
                 // TODO Auto-generated method stub
                 log.d(TAG,(String)obj);
             }
-
         };
-        resolver.registerContentObserver("Test", stringObserver);
-
         //===================================================//
         ContentObserver boolObserver = null;
         boolObserver = new ContentObserver(){
@@ -27,12 +23,15 @@ public class main {
                 // TODO Auto-generated method stub
                 log.d(TAG,(Boolean)obj);
             }
-
         };
+        //===================================================//
+        resolver.registerContentObserver("Test", stringObserver);
         resolver.registerContentObserver("BOOL", boolObserver);
-
 
         settingProvider.putString("Test","liguoqiang");
         settingProvider.putString("BOOL",false);
+        //===================================================//
+        resolver.unregisterContentObserver("BOOL", boolObserver);
+        settingProvider.putString("BOOL",true);
     }
 }

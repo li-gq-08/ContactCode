@@ -6,7 +6,7 @@ import java.lang.String;
 public class Common {
     String TAG = "funTest";
     private static Common install = null;
-    private HashMap<String ,ContentObserver> map = new HashMap<>();
+    private HashMap<String ,ContentObserver> ContentObservermap = new HashMap<>();
     private HashMap<String, Object> providerMap = new HashMap<>();
     public static Common getInstall() {
         try {
@@ -18,20 +18,31 @@ public class Common {
         }
         return install;
     }
-    public void setList(String key,ContentObserver obs ) {
-        map.put(key, obs);
+    public void addItem(String key,ContentObserver obs ) {
+        if(key.equals("")) {
+            log.d(TAG, "registerContentObserver key is null");
+            return ;
+        }
+        ContentObservermap.put(key, obs);
     }
 
-    public void setList(String key, Object value){
+    public void removeItem(String key,ContentObserver obs) {
+        ContentObservermap.remove(key, obs);
+    }
+    public void addItem(String key, Object value){
+        if(key.equals("")) {
+            log.d(TAG, "putString key is null");
+            return ;
+        }
         providerMap.put(key, value);
-        for(String str : map.keySet()) {
+        for(String str : ContentObservermap.keySet()) {
             if(str.equals(key)) {
-                ContentObserver obj = map.get(key);
-                obj.change(getList(key));
+                ContentObserver obj = ContentObservermap.get(key);
+                obj.change(getItem(key));
             }
         }
     }
-    public Object getList(String key) {
+    public Object getItem(String key) {
         return  providerMap.get(key);
     }
 }

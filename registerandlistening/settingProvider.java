@@ -14,10 +14,10 @@ public class settingProvider<T> {
     // }
 
     public static void putString(String key, Object value){
-        Common.getInstall().setList(key, value);
+        Common.getInstall().addItem(key, value);
     }
     public static Object getString(String key){
-        return  Common.getInstall().getList(key);
+        return  Common.getInstall().getItem(key);
     }
 
 }
